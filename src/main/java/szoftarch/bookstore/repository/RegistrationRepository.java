@@ -6,5 +6,7 @@ import szoftarch.bookstore.model.User;
 
 public interface RegistrationRepository extends MongoRepository<User, String>{
 	public User findByEmail(String email);
+
+	public User findByEmailAndPassword(String email, String password);
 	
 }

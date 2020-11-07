@@ -15,6 +15,7 @@ public class RegistrationController {
 	@Autowired
 	private RegistrationService service;
 	
+	//TODO: format checking (xx@xx.xx)
 	@PostMapping("/register")
 	public User registerUser(@RequestBody User user) throws Exception {
 		String email=user.getEmail();
@@ -25,5 +26,17 @@ public class RegistrationController {
 		User userObj=null;
 		userObj=service.saveUser(user);
 		return userObj;
+	}
+	
+	@PostMapping("/login")
+	public void loginUser(@RequestBody User user) throws Exception{
+		String email=user.getEmail();
+		String password=user.getPassword();
+		User userObj=null;
+		if(email==null || email=="" || password==null || password =="") throw new Exception("Format incorrect!");
+		else{
+			userObj=service.fetchUserByEmailAndPassword(email, password);
+			if(userObj==null) throw new Exception("There is no such user!");
+		}
 	}
 }
