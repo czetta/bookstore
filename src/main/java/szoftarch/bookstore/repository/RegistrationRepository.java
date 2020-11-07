@@ -4,6 +4,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import szoftarch.bookstore.model.User;
 
-public interface IRegistrationRepository extends MongoRepository<User, Integer>{
+public interface RegistrationRepository extends MongoRepository<User, String>{
+	public User findByEmail(String email);
 	
 }
