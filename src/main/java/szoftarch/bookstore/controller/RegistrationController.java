@@ -29,7 +29,7 @@ public class RegistrationController {
 	}
 	
 	@PostMapping("/login")
-	public void loginUser(@RequestBody User user) throws Exception{
+	public User loginUser(@RequestBody User user) throws Exception{
 		String email=user.getEmail();
 		String password=user.getPassword();
 		User userObj=null;
@@ -37,6 +37,7 @@ public class RegistrationController {
 		else{
 			userObj=service.fetchUserByEmailAndPassword(email, password);
 			if(userObj==null) throw new Exception("There is no such user!");
+			return userObj;
 		}
 	}
 }
