@@ -28,8 +28,8 @@ public class BookController {
 	private BookService service;
 	
 	@PostMapping("/upload")
-	public Book uploadBook(@RequestBody Book book) throws IOException{
-		Book bookStored=new Book(book.getTitle(), book.getAuthor(), compressBytes(book.getPicByte()), book.getDescription());
+	public Book uploadBook(@RequestParam("file") MultipartFile file, @RequestBody Book book) throws IOException{
+		Book bookStored=new Book(book.getTitle(), book.getAuthor(), compressBytes(file.getBytes()), book.getDescription());
 		service.saveBook(bookStored);
 		return bookStored;
 	}

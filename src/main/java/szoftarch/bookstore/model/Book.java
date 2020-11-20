@@ -1,7 +1,6 @@
 package szoftarch.bookstore.model;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.web.multipart.MultipartFile;
 
 public class Book {
 	@Id
