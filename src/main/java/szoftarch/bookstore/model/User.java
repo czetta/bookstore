@@ -1,6 +1,5 @@
 package szoftarch.bookstore.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -22,7 +21,6 @@ public class User {
 		this.password = password;
 		this.isAdmin = false;
 		this.isLoggedIn = false;
-		this.lists = new ArrayList<BookList>();
 	}
 
 	public int getId() {

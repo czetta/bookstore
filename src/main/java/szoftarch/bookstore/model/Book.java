@@ -2,6 +2,7 @@ package szoftarch.bookstore.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.annotation.Id;
 
@@ -14,7 +15,7 @@ public class Book {
 	//private byte[] picByte;
 	private String description;
 	private List<String> comments;
-	private List<Integer> ratings;
+	private Map<Integer, Integer> ratings; //<userid, rating>
 	private double rating;
 	
 	public Book() {}
@@ -23,9 +24,6 @@ public class Book {
 		this.authors=authors;
 		//this.picByte=picByte;
 		this.description=description;
-		this.comments=new ArrayList<String>();
-		this.ratings=new ArrayList<Integer>();
-		this.rating=0;
 	}
 	public int getId() {
 		return id;
@@ -63,20 +61,20 @@ public class Book {
 	public void setComments(List<String> comments) {
 		this.comments = comments;
 	}
-	public List<Integer> getRatings() {
+	public Map<Integer, Integer> getRatings() {
 		return ratings;
 	}
-	public void setRatings(List<Integer> ratings) {
+	public void setRatings(Map<Integer, Integer> ratings) {
 		this.ratings = ratings;
 	}
 	public double getRating() {
 		double sum=0;
 		if (ratings!=null) {
-			for(Integer i:ratings) {
+			for(Integer i : ratings.values()) {
 				sum+=i;
 			}
 		}
-		if(ratings!=null && ratings.size()>0) return Math.round(sum*100.0/ratings.size())/100.0;
+		if(ratings != null && ratings.size() > 0) return Math.round(sum*100.0/ratings.size())/100.0;
 		else return 0.00;
 	}
 	public void setRating(double rating) {
