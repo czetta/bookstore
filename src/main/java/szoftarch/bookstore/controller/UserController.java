@@ -17,13 +17,13 @@ import szoftarch.bookstore.model.User;
 import szoftarch.bookstore.service.UserService;
 
 @RestController
+@CrossOrigin(origins="http://localhost:4200")
 public class UserController {
 	@Autowired
 	private UserService service;
 	
 	//TODO: format checking (xx@xx.xx)
-	@PostMapping("/register")
-	@CrossOrigin(origins="https://localhost:8090")
+	@PostMapping("/user/register")
 	public synchronized ResponseEntity<User> registerUser(@RequestBody User user) {
 		String email=user.getEmail();
 		if(email!=null && !email.equals("")) {
@@ -37,8 +37,7 @@ public class UserController {
 		return new ResponseEntity<User>(userObj, HttpStatus.OK);
 	}
 	
-	@PostMapping("/login")
-	@CrossOrigin(origins="https://localhost:8090")
+	@PostMapping("/user/login")
 	public ResponseEntity<User> loginUser(@RequestBody User user) {
 		String email=user.getEmail();
 		String password=user.getPassword();
@@ -53,7 +52,6 @@ public class UserController {
 	}
 	
 	@GetMapping("/user/get/{userid}")
-	@CrossOrigin(origins="https://localhost:8090")
 	public ResponseEntity<User> getUser(@PathVariable String userid) {
 		int id = Integer.parseInt(userid);
 		User user = null;
@@ -62,8 +60,7 @@ public class UserController {
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	
-	@GetMapping("/usergetall")
-	@CrossOrigin(origins="https://localhost:8090")
+	@GetMapping("/user/getalluser")
 	public List<User> getAllUser() {
 		return service.fetchAllUser();
 	}

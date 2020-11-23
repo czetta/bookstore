@@ -21,33 +21,33 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import szoftarch.bookstore.model.Book;
+import szoftarch.bookstore.model.User;
 import szoftarch.bookstore.service.BookService;
 
 @RestController
+@CrossOrigin(origins="https://localhost:4200")
 public class BookController {
 	@Autowired
 	private BookService service;
 	
-	@PostMapping("/upload")
-	@CrossOrigin(origins="https://localhost:8090")
-	public Book uploadBook(@RequestParam("file") MultipartFile file, @RequestBody Book book) throws IOException{
-		Book bookStored=new Book(book.getTitle(), book.getAuthor(), compressBytes(file.getBytes()), book.getDescription());
-		service.saveBook(bookStored);
-		return bookStored;
+	@PostMapping("/book/upload")
+	public ResponseEntity<Book> uploadBook(/*@RequestParam("file") MultipartFile file, */@RequestBody Book book) {
+		book.setId(generateId());
+		Book bookStored=service.saveBook(book);
+		return new ResponseEntity<Book>(bookStored, HttpStatus.OK);
 	}
 	
-	@GetMapping(path={"/get/{title}"})
-	@CrossOrigin(origins="https://localhost:8090")
-	public Book getBook(@PathVariable("title") String title) throws Exception{
+	@GetMapping(path={"/book/get/{bookid}"})
+	public ResponseEntity<Book> getBook(@PathVariable("bookid") String bookid) throws Exception{
 		Book book=null;
-		book=service.fetchBookByTitle(title);
-		if(book==null) throw new Exception("Invalid title");
-		return new Book(book.getTitle(), book.getAuthor(), decompressBytes(book.getPicByte()), book.getDescription());
+		int id=Integer.parseInt(bookid);
+		book=service.fetchBookById(id);
+		if(book==null) return new ResponseEntity<Book>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<Book>(book, HttpStatus.OK);//(book.getTitle(), book.getAuthor(), decompressBytes(book.getPicByte()), book.getDescription());
 	}
 	
-	@GetMapping(path= {"/getallbook"})
-	@CrossOrigin(origins="https://localhost:8090")
-	public List<Book> getAllBook() throws Exception{
+	@GetMapping(path= {"/book/getallbook"})
+	public List<Book> getAllBook() {
 		return service.fetchAllBook();
 	}
 	
@@ -81,5 +81,14 @@ public class BookController {
 		} catch(IOException ioe) {
 		} catch(DataFormatException e) {}
 		return outputStream.toByteArray();
+	}
+	
+	private synchronized int generateId() {
+		List<Book> templist = getAllBook();
+		int tempid = 0;
+		for(Book b : templist) {
+			if(b.getId()>=tempid) tempid=b.getId()+1;
+		}
+		return tempid;
 	}
 }

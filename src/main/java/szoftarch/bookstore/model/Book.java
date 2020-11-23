@@ -1,5 +1,6 @@
 package szoftarch.bookstore.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -9,18 +10,20 @@ public class Book {
 	private int id;
 	
 	private String title;
-	private String author;
-	private byte[] picByte;
+	private List<String> authors;
+	//private byte[] picByte;
 	private String description;
 	private List<String> comments;
 	private List<Integer> ratings;
 	
 	public Book() {}
-	public Book(String title, String author, byte[] picByte, String description) {
+	public Book(String title, List<String> authors, /*byte[] picByte, */String description) {
 		this.title=title;
-		this.author=author;
-		this.picByte=picByte;
+		this.authors=authors;
+		//this.picByte=picByte;
 		this.description=description;
+		this.comments=new ArrayList<String>();
+		this.ratings=new ArrayList<Integer>();
 	}
 	public int getId() {
 		return id;
@@ -34,18 +37,18 @@ public class Book {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getAuthor() {
-		return author;
+	public List<String> getAuthors() {
+		return authors;
 	}
-	public void setAuthor(String author) {
-		this.author = author;
+	public void setAuthors(List<String> authors) {
+		this.authors = authors;
 	}
-	public byte[] getPicByte() {
+	/*public byte[] getPicByte() {
 		return picByte;
 	}
 	public void setPicByte(byte[] picByte) {
 		this.picByte = picByte;
-	}
+	}*/
 	public String getDescription() {
 		return description;
 	}

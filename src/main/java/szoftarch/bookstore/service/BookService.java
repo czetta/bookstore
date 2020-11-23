@@ -22,4 +22,7 @@ public class BookService {
 	public List<Book> fetchAllBook(){
 		return repo.findAll();
 	}
+	public Book fetchBookById(int id) {
+		return repo.findById(id);
+	}
 }
