@@ -24,12 +24,12 @@ import szoftarch.bookstore.model.Book;
 import szoftarch.bookstore.service.BookService;
 
 @RestController
-@CrossOrigin(origins="https://localhost:8090")
 public class BookController {
 	@Autowired
 	private BookService service;
 	
 	@PostMapping("/upload")
+	@CrossOrigin(origins="https://localhost:8090")
 	public Book uploadBook(@RequestParam("file") MultipartFile file, @RequestBody Book book) throws IOException{
 		Book bookStored=new Book(book.getTitle(), book.getAuthor(), compressBytes(file.getBytes()), book.getDescription());
 		service.saveBook(bookStored);
@@ -37,6 +37,7 @@ public class BookController {
 	}
 	
 	@GetMapping(path={"/get/{title}"})
+	@CrossOrigin(origins="https://localhost:8090")
 	public Book getBook(@PathVariable("title") String title) throws Exception{
 		Book book=null;
 		book=service.fetchBookByTitle(title);
@@ -45,6 +46,7 @@ public class BookController {
 	}
 	
 	@GetMapping(path= {"/getallbook"})
+	@CrossOrigin(origins="https://localhost:8090")
 	public List<Book> getAllBook() throws Exception{
 		return service.fetchAllBook();
 	}
