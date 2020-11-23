@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,6 +49,15 @@ public class UserController {
 			userObj.setLoggedIn(true);
 			return new ResponseEntity<User>(userObj, HttpStatus.OK);
 		}
+	}
+	
+	@GetMapping("/user/get/{userid}")
+	public ResponseEntity<User> getUser(@PathVariable String userid) {
+		int id = Integer.parseInt(userid);
+		User user = null;
+		user = service.fetchUserById(id);
+		if(user==null) return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	
 	@GetMapping("/usergetall")

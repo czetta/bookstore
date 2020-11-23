@@ -25,4 +25,7 @@ public class UserService {
 	public List<User> fetchAllUser() {
 		return repo.findAll();
 	}
+	public User fetchUserById(int id) {
+		return repo.findById(id);
+	}
 }
