@@ -15,6 +15,7 @@ public class Book {
 	private String description;
 	private List<String> comments;
 	private List<Integer> ratings;
+	private double rating;
 	
 	public Book() {}
 	public Book(String title, List<String> authors, /*byte[] picByte, */String description) {
@@ -24,6 +25,7 @@ public class Book {
 		this.description=description;
 		this.comments=new ArrayList<String>();
 		this.ratings=new ArrayList<Integer>();
+		this.rating=0;
 	}
 	public int getId() {
 		return id;
@@ -69,9 +71,15 @@ public class Book {
 	}
 	public double getRating() {
 		double sum=0;
-		for(Integer i:ratings) {
-			sum+=i;
+		if (ratings!=null) {
+			for(Integer i:ratings) {
+				sum+=i;
+			}
 		}
-		return Math.round(sum*100.0/ratings.size())/100.0;
+		if(ratings!=null && ratings.size()>0) return Math.round(sum*100.0/ratings.size())/100.0;
+		else return 0.00;
+	}
+	public void setRating(double rating) {
+		this.rating=rating;
 	}
 }

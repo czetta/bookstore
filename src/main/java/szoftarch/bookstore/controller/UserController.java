@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import szoftarch.bookstore.model.User;
@@ -22,7 +21,6 @@ public class UserController {
 	@Autowired
 	private UserService service;
 	
-	//TODO: format checking (xx@xx.xx)
 	@PostMapping("/user/register")
 	public synchronized ResponseEntity<User> registerUser(@RequestBody User user) {
 		String email=user.getEmail();
