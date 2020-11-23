@@ -25,7 +25,7 @@ import szoftarch.bookstore.model.User;
 import szoftarch.bookstore.service.BookService;
 
 @RestController
-@CrossOrigin(origins="https://localhost:4200")
+@CrossOrigin(origins="https//localhost:4200")
 public class BookController {
 	@Autowired
 	private BookService service;
