@@ -26,8 +26,6 @@ public class Book {
 		//setAuthorList(authors);
 		this.authorList=authorList;
 		this.description=description;
-		this.comments=new ArrayList<String>();
-		this.ratings=new HashMap<Integer, Integer>();
 	}
 	public int getId() {
 		return id;
@@ -95,5 +93,9 @@ public class Book {
 	public void rateBook(int userid, int rating) {
 		if(ratings==null) ratings = new HashMap<Integer, Integer>();
 		ratings.put(userid, rating);
+	}
+	public void commentBook(String comment) {
+		if(comments==null) comments = new ArrayList<String>();
+		comments.add(comment);
 	}
 }

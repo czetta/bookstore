@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import szoftarch.bookstore.model.Book;
+import szoftarch.bookstore.model.Comment;
 import szoftarch.bookstore.model.Rating;
 import szoftarch.bookstore.model.User;
 import szoftarch.bookstore.service.BookService;
@@ -89,6 +90,16 @@ public class BookController {
 		book = service.fetchBookById(id);
 		if(book==null) return new ResponseEntity<Book>(HttpStatus.BAD_REQUEST);
 		book.rateBook(map.getUserid(), map.getRating());
+		return new ResponseEntity<Book>(service.saveBook(book), HttpStatus.OK);
+	}
+	
+	@PutMapping("/book/comment/{bookid}")
+	public ResponseEntity<Book> commentBook(@PathVariable String bookid, @RequestBody Comment comment){
+		int id = Integer.parseInt(bookid);
+		Book book = null;
+		book = service.fetchBookById(id);
+		if(book==null) return new ResponseEntity<Book>(HttpStatus.BAD_REQUEST);
+		book.commentBook(comment.getComment());
 		return new ResponseEntity<Book>(service.saveBook(book), HttpStatus.OK);
 	}
 	
