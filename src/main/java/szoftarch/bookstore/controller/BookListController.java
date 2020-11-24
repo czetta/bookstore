@@ -32,6 +32,11 @@ public class BookListController {
 		return service.fetchAllBookList();
 	}
 	
+	@GetMapping("/booklist/getbooklists")
+	public List<BookList> getBookLists(){
+		return service.fetchPublicBookLists();
+	}
+	
 	private synchronized int generateBookListId() {
 		List<BookList> templist = getAllBookList();
 		int tempid = 0;

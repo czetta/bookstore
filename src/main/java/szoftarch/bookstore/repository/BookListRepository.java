@@ -8,5 +8,7 @@ import szoftarch.bookstore.model.BookList;
 
 public interface BookListRepository extends MongoRepository<BookList, Integer> {
 	public List<BookList> findAll();
+
+	public List<BookList> findByIsPublic(boolean b);
 	
 }

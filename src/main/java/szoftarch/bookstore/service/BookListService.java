@@ -20,6 +20,10 @@ public class BookListService {
 	public BookList saveBookList(BookList bookList) {
 		return repo.save(bookList);
 	}
+
+	public List<BookList> fetchPublicBookLists() {
+		return repo.findByIsPublic(true);
+	}
 	
 	
 }
