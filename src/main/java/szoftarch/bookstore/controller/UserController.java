@@ -47,8 +47,18 @@ public class UserController {
 			userObj=service.fetchUserByEmailAndPassword(email, password);
 			if(userObj==null) return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
 			userObj.setLoggedIn(true);
-			return new ResponseEntity<User>(userObj, HttpStatus.OK);
+			return new ResponseEntity<User>(service.updateUser(userObj), HttpStatus.OK);
 		}
+	}
+	
+	@PutMapping("/user/logout/{userid}")
+	public ResponseEntity<User> logoutUser(@PathVariable String userid) {
+		int id = Integer.parseInt(userid);
+		User tempuser = null;
+		tempuser = service.fetchUserById(id);
+		if(tempuser==null) return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+		tempuser.setLoggedIn(false);
+		return new ResponseEntity<User>(service.updateUser(tempuser), HttpStatus.OK);
 	}
 	
 	@GetMapping("/user/get/{userid}")
