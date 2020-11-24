@@ -1,6 +1,7 @@
 package szoftarch.bookstore.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,8 @@ public class Book {
 		//setAuthorList(authors);
 		this.authorList=authorList;
 		this.description=description;
+		this.comments=new ArrayList<String>();
+		this.ratings=new HashMap<Integer, Integer>();
 	}
 	public int getId() {
 		return id;
@@ -88,5 +91,9 @@ public class Book {
 	}
 	public void setRating(double rating) {
 		this.rating=rating;
+	}
+	public void rateBook(int userid, int rating) {
+		if(ratings==null) ratings = new HashMap<Integer, Integer>();
+		ratings.put(userid, rating);
 	}
 }

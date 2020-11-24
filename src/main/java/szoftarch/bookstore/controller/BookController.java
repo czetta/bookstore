@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import szoftarch.bookstore.model.Book;
+import szoftarch.bookstore.model.Rating;
 import szoftarch.bookstore.model.User;
 import szoftarch.bookstore.service.BookService;
 
@@ -37,6 +38,11 @@ public class BookController {
 		return new ResponseEntity<Book>(bookStored, HttpStatus.OK);
 	}
 	
+	@GetMapping("/book/getallbook")
+	public List<Book> getAllBook() {
+		return service.fetchAllBook();
+	}
+	
 	@GetMapping("/book/get/{bookid}")
 	public ResponseEntity<Book> getBook(@PathVariable String bookid) throws Exception{
 		//init();
@@ -47,16 +53,9 @@ public class BookController {
 		return new ResponseEntity<Book>(book, HttpStatus.OK);//(book.getTitle(), book.getAuthor(), decompressBytes(book.getPicByte()), book.getDescription());
 	}
 	
-	@GetMapping("/book/find/{filter}")
-	public ResponseEntity<List<Book>> findBooks(@PathVariable String filter){
-		List<Book> books = new ArrayList<Book>();
-		books = service.fetchBookByFilter(filter);
-		return new ResponseEntity<List<Book>>(books, HttpStatus.OK);
-	}
-	
-	@PutMapping("/book/update/{userid}")
-	public ResponseEntity<Book> updateBook(@PathVariable String userid, @RequestBody Book book){
-		int id = Integer.parseInt(userid);
+	@PutMapping("/book/update/{bookid}")
+	public ResponseEntity<Book> updateBook(@PathVariable String bookid, @RequestBody Book book){
+		int id = Integer.parseInt(bookid);
 		Book tempbook = null;
 		tempbook = service.fetchBookById(id);
 		if(tempbook==null) return new ResponseEntity<Book>(HttpStatus.BAD_REQUEST);
@@ -76,12 +75,21 @@ public class BookController {
 		return new ResponseEntity<Book>(HttpStatus.OK);
 	}
 	
-	/*@PutMapping("/book/rate/{bookid}")
-	public ResponseEntity<Book> rateBook(@RequestBody )*/
+	@GetMapping("/book/find/{filter}")
+	public ResponseEntity<List<Book>> findBooks(@PathVariable String filter){
+		List<Book> books = new ArrayList<Book>();
+		books = service.fetchBookByFilter(filter);
+		return new ResponseEntity<List<Book>>(books, HttpStatus.OK);
+	}
 	
-	@GetMapping("/book/getallbook")
-	public List<Book> getAllBook() {
-		return service.fetchAllBook();
+	@PutMapping("/book/rate/{bookid}")
+	public ResponseEntity<Book> rateBook(@PathVariable String bookid, @RequestBody Rating map){
+		int id = Integer.parseInt(bookid);
+		Book book = null;
+		book = service.fetchBookById(id);
+		if(book==null) return new ResponseEntity<Book>(HttpStatus.BAD_REQUEST);
+		book.rateBook(map.getUserid(), map.getRating());
+		return new ResponseEntity<Book>(service.saveBook(book), HttpStatus.OK);
 	}
 	
 	public static byte[] compressBytes(byte[] data) {
