@@ -46,7 +46,6 @@ public class BookController {
 	
 	@GetMapping("/book/get/{bookid}")
 	public ResponseEntity<Book> getBook(@PathVariable String bookid) throws Exception{
-		//init();
 		Book book=null;
 		int id=Integer.parseInt(bookid);
 		book=service.fetchBookById(id);
@@ -56,13 +55,14 @@ public class BookController {
 	
 	@PutMapping("/book/update/{bookid}")
 	public ResponseEntity<Book> updateBook(@PathVariable String bookid, @RequestBody Book book){
-		int id = Integer.parseInt(bookid);
 		Book tempbook = null;
+		int id = Integer.parseInt(bookid);
 		tempbook = service.fetchBookById(id);
 		if(tempbook==null) return new ResponseEntity<Book>(HttpStatus.BAD_REQUEST);
 		tempbook.setTitle(book.getTitle());
 		tempbook.setAuthorList(book.getAuthorList());
 		tempbook.setDescription(book.getDescription());
+		if(id==0) service.deleteBook(service.fetchBookById(id));
 		return new ResponseEntity<Book>(service.saveBook(tempbook), HttpStatus.OK);
 	}
 	
@@ -155,7 +155,7 @@ public class BookController {
 			books.add(tempbook);
 			if(book.getId()>maxid) maxid=book.getId();
 		}
-		for(int i=0; i<maxid; i++) {
+		for(int i=0; i<=maxid; i++) {
 			delBook(((Integer)i).toString());
 		}
 		for(Book b : books) {

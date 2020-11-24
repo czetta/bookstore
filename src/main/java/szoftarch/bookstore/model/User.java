@@ -13,7 +13,6 @@ public class User {
 	private String password;
 	private boolean isAdmin;
 	private boolean isLoggedIn;
-	private List<BookList> lists;
 	
 	public User() {}
 
@@ -62,17 +61,5 @@ public class User {
 
 	public void setIsLoggedIn(boolean isLoggedIn) {
 		this.isLoggedIn = isLoggedIn;
-	}
-
-	public List<BookList> getLists() {
-		return lists;
-	}
-
-	public void setLists(List<BookList> lists) {
-		this.lists = lists;
-	}
-	public void addBookList(BookList bookList) {
-		if(lists==null) lists = new ArrayList<BookList>();
-		lists.add(bookList);
 	}
 }

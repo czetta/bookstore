@@ -1,5 +1,6 @@
 package szoftarch.bookstore.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -48,5 +49,12 @@ public class BookList {
 	}
 	public void setUserid(int userid) {
 		this.userid = userid;
+	}
+	public void addBook(int bookid) {
+		if(bookids==null) bookids = new ArrayList<Integer>();
+		bookids.add(bookid);
+	}
+	public void removeBook(int bookid) {
+		if(bookids!=null) if(bookids.contains(bookid)) bookids.remove(bookids.indexOf(bookid));
 	}
 }
