@@ -76,6 +76,9 @@ public class BookController {
 		return new ResponseEntity<Book>(HttpStatus.OK);
 	}
 	
+	/*@PutMapping("/book/rate/{bookid}")
+	public ResponseEntity<Book> rateBook(@RequestBody )*/
+	
 	@GetMapping("/book/getallbook")
 	public List<Book> getAllBook() {
 		return service.fetchAllBook();

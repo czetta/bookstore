@@ -20,9 +20,10 @@ public class Book {
 	private double rating;
 	
 	public Book() {}
-	public Book(String title, List<String> authors, String description) {
+	public Book(String title, /*List<String> authors*/String authorList, String description) {
 		this.title=title;
-		setAuthorList(authors);
+		//setAuthorList(authors);
+		this.authorList=authorList;
 		this.description=description;
 	}
 	public int getId() {
@@ -43,17 +44,19 @@ public class Book {
 	public void setAuthors(List<String> authors) {
 		this.authors = authors;
 	}*/
-	public List<String> getAuthorList() {
-		List<String> authors = new ArrayList<String>();
+	public /*List<String>*/String getAuthorList() {
+		/*List<String> authors = new ArrayList<String>();
 		if(authorList!=null) for(int i=0; i<authorList.split(",").length; i++) authors.add(authorList.split(",")[i]);
-		return authors;
+		return authors;*/
+		return authorList;
 	}
-	public void setAuthorList(List<String> authors) {
-		this.authorList = "";
+	public void setAuthorList(/*List<String> authors*/String authorList) {
+		/*this.authorList = "";
 		for(String s : authors) {
 			this.authorList+=s+",";
 		}
-		authorList = authorList.substring(0, authorList.length()-1);
+		authorList = authorList.substring(0, authorList.length()-1);*/
+		this.authorList=authorList;
 	}
 	public String getDescription() {
 		return description;
