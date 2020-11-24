@@ -24,6 +24,10 @@ public class BookListService {
 	public List<BookList> fetchPublicBookLists() {
 		return repo.findByIsPublic(true);
 	}
+
+	public List<BookList> fetchUserBookLists(int id) {
+		return repo.findByUserid(id);
+	}
 	
 	
 }
