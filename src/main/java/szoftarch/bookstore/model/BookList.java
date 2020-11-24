@@ -6,21 +6,23 @@ import org.springframework.data.annotation.Id;
 
 public class BookList {
 	@Id
-	private String id;
+	private int id;
 	
 	private String name;
-	private List<Book> books;
+	private List<Integer> bookids;
 	private boolean isPublic;
+	private int userid;
 	public BookList() {}
-	public BookList(String name, List<Book> books, boolean isPublic) {
+	public BookList(String name, List<Integer> bookids, boolean isPublic, int userid) {
 		this.name = name;
-		this.books = books;
+		this.bookids = bookids;
 		this.isPublic = isPublic;
+		this.userid = userid;
 	}
-	public String getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -29,16 +31,22 @@ public class BookList {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public List<Book> getBooks() {
-		return books;
+	public List<Integer> getBookids() {
+		return bookids;
 	}
-	public void setBooks(List<Book> books) {
-		this.books = books;
+	public void setBookids(List<Integer> bookids) {
+		this.bookids = bookids;
 	}
-	public boolean isPublic() {
+	public boolean getIsPublic() {
 		return isPublic;
 	}
-	public void setPublic(boolean isPublic) {
+	public void setIsPublic(boolean isPublic) {
 		this.isPublic = isPublic;
+	}
+	public int getUserid() {
+		return userid;
+	}
+	public void setUserid(int userid) {
+		this.userid = userid;
 	}
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import szoftarch.bookstore.model.BookList;
 import szoftarch.bookstore.model.User;
 import szoftarch.bookstore.service.UserService;
 
@@ -31,7 +32,7 @@ public class UserController {
 			if(userobj!=null) return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
 		}
 		else return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
-		user.setId(generateId());
+		user.setId(generateUserId());
 		User userObj=null;
 		userObj=service.saveUser(user);
 		return new ResponseEntity<User>(userObj, HttpStatus.OK);
@@ -46,7 +47,7 @@ public class UserController {
 		else{
 			userObj=service.fetchUserByEmailAndPassword(email, password);
 			if(userObj==null) return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
-			userObj.setLoggedIn(true);
+			userObj.setIsLoggedIn(true);
 			return new ResponseEntity<User>(service.saveUser(userObj), HttpStatus.OK);
 		}
 	}
@@ -57,7 +58,7 @@ public class UserController {
 		User tempuser = null;
 		tempuser = service.fetchUserById(id);
 		if(tempuser==null) return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
-		tempuser.setLoggedIn(false);
+		tempuser.setIsLoggedIn(false);
 		return new ResponseEntity<User>(service.saveUser(tempuser), HttpStatus.OK);
 	}
 	
@@ -96,7 +97,7 @@ public class UserController {
 		return service.fetchAllUser();
 	}
 	
-	private synchronized int generateId() {
+	private synchronized int generateUserId() {
 		List<User> templist = getAllUser();
 		int tempid = 0;
 		for(User u : templist) {

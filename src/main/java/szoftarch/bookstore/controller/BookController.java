@@ -34,7 +34,7 @@ public class BookController {
 	
 	@PostMapping("/book/upload")
 	public ResponseEntity<Book> uploadBook(/*@RequestParam("file") MultipartFile file, */@RequestBody Book book) {
-		book.setId(generateId());
+		book.setId(generateBookId());
 		Book bookStored=service.saveBook(book);
 		return new ResponseEntity<Book>(bookStored, HttpStatus.OK);
 	}
@@ -135,7 +135,7 @@ public class BookController {
 		return outputStream.toByteArray();
 	}
 	
-	private synchronized int generateId() {
+	private synchronized int generateBookId() {
 		List<Book> templist = getAllBook();
 		int tempid = 0;
 		for(Book b : templist) {

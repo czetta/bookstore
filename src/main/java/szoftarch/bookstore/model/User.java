@@ -22,7 +22,6 @@ public class User {
 		this.password = password;
 		this.isAdmin = false;
 		this.isLoggedIn = false;
-		this.lists = new ArrayList<BookList>();
 	}
 
 	public int getId() {
@@ -49,19 +48,19 @@ public class User {
 		this.password = password;
 	}
 
-	public boolean isAdmin() {
+	public boolean getIsAdmin() {
 		return isAdmin;
 	}
 
-	public void setAdmin(boolean isAdmin) {
+	public void setIsAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;
 	}
 
-	public boolean isLoggedIn() {
+	public boolean getIsLoggedIn() {
 		return isLoggedIn;
 	}
 
-	public void setLoggedIn(boolean isLoggedIn) {
+	public void setIsLoggedIn(boolean isLoggedIn) {
 		this.isLoggedIn = isLoggedIn;
 	}
 
@@ -72,5 +71,8 @@ public class User {
 	public void setLists(List<BookList> lists) {
 		this.lists = lists;
 	}
-	
+	public void addBookList(BookList bookList) {
+		if(lists==null) lists = new ArrayList<BookList>();
+		lists.add(bookList);
+	}
 }
