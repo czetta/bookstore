@@ -47,7 +47,7 @@ public class UserController {
 			userObj=service.fetchUserByEmailAndPassword(email, password);
 			if(userObj==null) return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
 			userObj.setLoggedIn(true);
-			return new ResponseEntity<User>(service.updateUser(userObj), HttpStatus.OK);
+			return new ResponseEntity<User>(service.saveUser(userObj), HttpStatus.OK);
 		}
 	}
 	
@@ -58,7 +58,7 @@ public class UserController {
 		tempuser = service.fetchUserById(id);
 		if(tempuser==null) return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
 		tempuser.setLoggedIn(false);
-		return new ResponseEntity<User>(service.updateUser(tempuser), HttpStatus.OK);
+		return new ResponseEntity<User>(service.saveUser(tempuser), HttpStatus.OK);
 	}
 	
 	@GetMapping("/user/get/{userid}")
@@ -78,7 +78,7 @@ public class UserController {
 		if(tempuser==null) return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
 		tempuser.setEmail(user.getEmail());
 		tempuser.setPassword(user.getPassword());
-		return new ResponseEntity<User>(service.updateUser(tempuser), HttpStatus.OK);
+		return new ResponseEntity<User>(service.saveUser(tempuser), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/user/del/{userid}")

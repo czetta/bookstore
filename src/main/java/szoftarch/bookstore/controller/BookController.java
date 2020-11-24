@@ -2,6 +2,7 @@ package szoftarch.bookstore.controller;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
@@ -11,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,8 +37,9 @@ public class BookController {
 		return new ResponseEntity<Book>(bookStored, HttpStatus.OK);
 	}
 	
-	@GetMapping(path={"/book/get/{bookid}"})
-	public ResponseEntity<Book> getBook(@PathVariable("bookid") String bookid) throws Exception{
+	@GetMapping("/book/get/{bookid}")
+	public ResponseEntity<Book> getBook(@PathVariable String bookid) throws Exception{
+		//init();
 		Book book=null;
 		int id=Integer.parseInt(bookid);
 		book=service.fetchBookById(id);
@@ -43,7 +47,36 @@ public class BookController {
 		return new ResponseEntity<Book>(book, HttpStatus.OK);//(book.getTitle(), book.getAuthor(), decompressBytes(book.getPicByte()), book.getDescription());
 	}
 	
-	@GetMapping(path= {"/book/getallbook"})
+	@GetMapping("/book/find/{filter}")
+	public ResponseEntity<List<Book>> findBooks(@PathVariable String filter){
+		List<Book> books = new ArrayList<Book>();
+		books = service.fetchBookByFilter(filter);
+		return new ResponseEntity<List<Book>>(books, HttpStatus.OK);
+	}
+	
+	@PutMapping("/book/update/{userid}")
+	public ResponseEntity<Book> updateBook(@PathVariable String userid, @RequestBody Book book){
+		int id = Integer.parseInt(userid);
+		Book tempbook = null;
+		tempbook = service.fetchBookById(id);
+		if(tempbook==null) return new ResponseEntity<Book>(HttpStatus.BAD_REQUEST);
+		tempbook.setTitle(book.getTitle());
+		tempbook.setAuthorList(book.getAuthorList());
+		tempbook.setDescription(book.getDescription());
+		return new ResponseEntity<Book>(service.saveBook(tempbook), HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/book/del/{bookid}")
+	public ResponseEntity<Book> delBook(@PathVariable String bookid){
+		int id = Integer.parseInt(bookid);
+		Book book = null;
+		book = service.fetchBookById(id);
+		if(book==null) return new ResponseEntity<Book>(HttpStatus.BAD_REQUEST);
+		service.deleteBook(book);
+		return new ResponseEntity<Book>(HttpStatus.OK);
+	}
+	
+	@GetMapping("/book/getallbook")
 	public List<Book> getAllBook() {
 		return service.fetchAllBook();
 	}
@@ -87,5 +120,24 @@ public class BookController {
 			if(b.getId()>=tempid) tempid=b.getId()+1;
 		}
 		return tempid;
+	}
+	
+	private void init() {
+		List<Book> books=new ArrayList<>();
+		int maxid=0;
+		for(Book book : getAllBook()) {
+			Book tempbook=new Book();
+			tempbook.setTitle(book.getTitle());
+			tempbook.setAuthorList(book.getAuthorList());
+			tempbook.setDescription(book.getDescription());
+			books.add(tempbook);
+			if(book.getId()>maxid) maxid=book.getId();
+		}
+		for(int i=0; i<maxid; i++) {
+			delBook(((Integer)i).toString());
+		}
+		for(Book b : books) {
+			uploadBook(b);
+		}
 	}
 }

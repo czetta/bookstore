@@ -11,7 +11,8 @@ public class Book {
 	private int id;
 	
 	private String title;
-	private List<String> authors;
+	//private List<String> authors;
+	private String authorList;
 	//private byte[] picByte;
 	private String description;
 	private List<String> comments;
@@ -19,10 +20,9 @@ public class Book {
 	private double rating;
 	
 	public Book() {}
-	public Book(String title, List<String> authors, /*byte[] picByte, */String description) {
+	public Book(String title, List<String> authors, String description) {
 		this.title=title;
-		this.authors=authors;
-		//this.picByte=picByte;
+		setAuthorList(authors);
 		this.description=description;
 	}
 	public int getId() {
@@ -37,18 +37,24 @@ public class Book {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public List<String> getAuthors() {
+	/*public List<String> getAuthors() {
 		return authors;
 	}
 	public void setAuthors(List<String> authors) {
 		this.authors = authors;
-	}
-	/*public byte[] getPicByte() {
-		return picByte;
-	}
-	public void setPicByte(byte[] picByte) {
-		this.picByte = picByte;
 	}*/
+	public List<String> getAuthorList() {
+		List<String> authors = new ArrayList<String>();
+		if(authorList!=null) for(int i=0; i<authorList.split(",").length; i++) authors.add(authorList.split(",")[i]);
+		return authors;
+	}
+	public void setAuthorList(List<String> authors) {
+		this.authorList = "";
+		for(String s : authors) {
+			this.authorList+=s+",";
+		}
+		authorList = authorList.substring(0, authorList.length()-1);
+	}
 	public String getDescription() {
 		return description;
 	}

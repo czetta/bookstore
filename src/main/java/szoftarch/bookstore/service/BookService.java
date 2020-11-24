@@ -25,4 +25,10 @@ public class BookService {
 	public Book fetchBookById(int id) {
 		return repo.findById(id);
 	}
+	public List<Book> fetchBookByFilter(String filter) {
+		return repo.findByTitleContainingIgnoreCaseOrAuthorListContainingIgnoreCase(filter, filter);
+	}
+	public void deleteBook(Book book) {
+		repo.delete(book);
+	}
 }

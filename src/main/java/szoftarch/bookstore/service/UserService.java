@@ -16,9 +16,6 @@ public class UserService {
 	public User saveUser(User user) {
 		return repo.save(user);
 	}
-	public User updateUser(User user) {
-		return repo.save(user);
-	}
 	public User fetchUserByEmail(String email) {
 		return repo.findByEmail(email);
 	}
