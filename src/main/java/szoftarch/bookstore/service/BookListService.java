@@ -28,6 +28,14 @@ public class BookListService {
 	public List<BookList> fetchUserBookLists(int id) {
 		return repo.findByUserid(id);
 	}
+
+	public BookList fetchBookListById(int id) {
+		return repo.findById(id);
+	}
+
+	public void deleteBookList(BookList booklist) {
+		repo.delete(booklist);
+	}
 	
 	
 }

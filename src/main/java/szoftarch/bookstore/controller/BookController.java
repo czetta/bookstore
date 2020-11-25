@@ -45,7 +45,7 @@ public class BookController {
 	}
 	
 	@GetMapping("/book/get/{bookid}")
-	public ResponseEntity<Book> getBook(@PathVariable String bookid) throws Exception{
+	public ResponseEntity<Book> getBook(@PathVariable String bookid) {
 		Book book=null;
 		int id=Integer.parseInt(bookid);
 		book=service.fetchBookById(id);
@@ -66,7 +66,7 @@ public class BookController {
 		return new ResponseEntity<Book>(service.saveBook(tempbook), HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/book/del/{bookid}")
+	@DeleteMapping("/book/del/{bookid}")// REMOVE FROM BOOKLISTS
 	public ResponseEntity<Book> delBook(@PathVariable String bookid){
 		int id = Integer.parseInt(bookid);
 		Book book = null;

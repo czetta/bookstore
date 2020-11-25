@@ -13,4 +13,5 @@ public interface BookListRepository extends MongoRepository<BookList, Integer> {
 
 	public List<BookList> findByUserid(int id);
 	
+	public BookList findById(int id);
 }
