@@ -67,7 +67,7 @@ public class BookListController {
 		return new ResponseEntity<BookList>(service.saveBookList(tempbooklist), HttpStatus.OK);
 	}
 	
-	@PutMapping("/booklist/add/{booklistid}")
+	@PutMapping("/booklist/add/{booklistid}")// ONLY ADD EXISTING
 	public ResponseEntity<BookList> addBook(@PathVariable String booklistid, @RequestBody Book book){
 		int id=Integer.parseInt(booklistid);
 		BookList booklist=null;

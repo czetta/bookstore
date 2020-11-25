@@ -21,9 +21,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import szoftarch.bookstore.model.Book;
+import szoftarch.bookstore.model.BookList;
 import szoftarch.bookstore.model.Comment;
 import szoftarch.bookstore.model.Rating;
 import szoftarch.bookstore.model.User;
+import szoftarch.bookstore.service.BookListService;
 import szoftarch.bookstore.service.BookService;
 
 @RestController
@@ -31,6 +33,8 @@ import szoftarch.bookstore.service.BookService;
 public class BookController {
 	@Autowired
 	private BookService service;
+	@Autowired
+	private BookListService bls;
 	
 	@PostMapping("/book/upload")
 	public ResponseEntity<Book> uploadBook(/*@RequestParam("file") MultipartFile file, */@RequestBody Book book) {
@@ -72,6 +76,13 @@ public class BookController {
 		Book book = null;
 		book = service.fetchBookById(id);
 		if(book==null) return new ResponseEntity<Book>(HttpStatus.BAD_REQUEST);
+		List<BookList> booklists = bls.fetchAllBookList();
+		if(booklists!=null) {
+			for(BookList bl : booklists) {
+				bl.removeBook(id);
+				bls.saveBookList(bl);
+			}
+		}
 		service.deleteBook(book);
 		return new ResponseEntity<Book>(HttpStatus.OK);
 	}
