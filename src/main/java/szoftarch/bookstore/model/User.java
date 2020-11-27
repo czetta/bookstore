@@ -1,26 +1,34 @@
 package szoftarch.bookstore.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 public class User {
 	@Id
 	private int id;
 	
+	@NotBlank
+	private String username;
+	@NotBlank
+	@Email
 	private String email;
+	@NotBlank
 	private String password;
-	private boolean isAdmin;
-	private boolean isLoggedIn;
+	@DBRef
+	private Set<Role> roles = new HashSet<>();
 	
 	public User() {}
 
-	public User(String email, String password) {
+	public User(String username, String email, String password) {
+		this.username = username;
 		this.email = email;
 		this.password = password;
-		this.isAdmin = false;
-		this.isLoggedIn = false;
 	}
 
 	public int getId() {
@@ -29,6 +37,14 @@ public class User {
 
 	public synchronized void setId(int id) {
 		this.id = id;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getEmail() {
@@ -46,20 +62,12 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	public boolean getIsAdmin() {
-		return isAdmin;
+	
+	public Set<Role> getRoles(){
+		return roles;
 	}
-
-	public void setIsAdmin(boolean isAdmin) {
-		this.isAdmin = isAdmin;
-	}
-
-	public boolean getIsLoggedIn() {
-		return isLoggedIn;
-	}
-
-	public void setIsLoggedIn(boolean isLoggedIn) {
-		this.isLoggedIn = isLoggedIn;
+	
+	public void setRoles(Set<Role> roles) {
+		this.roles=roles;
 	}
 }

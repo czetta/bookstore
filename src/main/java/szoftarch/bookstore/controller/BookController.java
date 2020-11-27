@@ -70,7 +70,7 @@ public class BookController {
 		return new ResponseEntity<Book>(service.saveBook(tempbook), HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/book/del/{bookid}")// REMOVE FROM BOOKLISTS
+	@DeleteMapping("/book/del/{bookid}")
 	public ResponseEntity<Book> delBook(@PathVariable String bookid){
 		int id = Integer.parseInt(bookid);
 		Book book = null;
@@ -104,7 +104,7 @@ public class BookController {
 		return new ResponseEntity<Book>(service.saveBook(book), HttpStatus.OK);
 	}
 	
-	@PutMapping("/book/comment/{bookid}")
+	@PutMapping("/book/comment/{bookid}") //TODO: id:0 crash
 	public ResponseEntity<Book> commentBook(@PathVariable String bookid, @RequestBody Comment comment){
 		int id = Integer.parseInt(bookid);
 		Book book = null;
