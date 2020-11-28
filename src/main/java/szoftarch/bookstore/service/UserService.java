@@ -31,4 +31,10 @@ public class UserService {
 	public void deleteUser(User user) {
 		repo.delete(user);
 	}
+	public Boolean fetchUserExistsByUsername(String username) {
+		return repo.existsByUsername(username);
+	}
+	public Boolean fetchUserExistsByEmail(String email) {
+		return repo.existsByEmail(email);
+	}
 }
