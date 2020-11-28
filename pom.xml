@@ -66,7 +66,12 @@
 		<dependency>
 		    <groupId>jakarta.xml.bind</groupId>
 		    <artifactId>jakarta.xml.bind-api</artifactId>
-		    </dependency>
+	    </dependency>
+	    <dependency>
+		   <groupId>commons-configuration</groupId>
+		   <artifactId>commons-configuration</artifactId>
+		   <version>1.9</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

@@ -29,7 +29,7 @@ import szoftarch.bookstore.service.BookListService;
 import szoftarch.bookstore.service.BookService;
 
 @RestController
-@CrossOrigin(origins="http://localhost:4200")
+@CrossOrigin(origins="http://localhost:4200", maxAge=3600)
 public class BookController {
 	@Autowired
 	private BookService service;

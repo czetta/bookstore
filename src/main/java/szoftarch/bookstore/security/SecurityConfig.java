@@ -18,16 +18,18 @@ import szoftarch.bookstore.service.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity
+@EnableGlobalMethodSecurity(prePostEnabled=true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
 	@Autowired
 	private AuthEntryPointJwt unauthorizedHandler;
-	@Bean
+	@Autowired
+	private AuthTokenFilter authTokenFilter;
+	/*@Bean
 	public AuthTokenFilter authenticationJwtTokenFilter() {
 		return new AuthTokenFilter();
-	}
+	}*/
 	@Override
 	public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception{
 		authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
@@ -46,8 +48,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors().and().csrf().disable()
 			.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-			.authorizeRequests().antMatchers("/auth/**").permitAll()
+			.authorizeRequests()
+			.antMatchers("/auth/**").permitAll()
 			.anyRequest().authenticated();
-		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+		http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 }

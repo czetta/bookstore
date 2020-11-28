@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -19,8 +20,10 @@ import szoftarch.bookstore.service.UserDetailsImpl;
 public class JwtUtils {
 	private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 	
-	private String jwtSecret="s3cR3Tk3y";
-	private int jwtExpirationMs=3600000;
+	@Value("${jwtSecret}")
+	private String jwtSecret;
+	@Value("${jwtExpirationMs}")
+	private int jwtExpirationMs;
 	
 	public String generateJwtToken(Authentication authentication) {
 		UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
