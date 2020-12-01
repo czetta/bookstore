@@ -3,9 +3,6 @@ package szoftarch.bookstore.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
@@ -13,12 +10,8 @@ public class User {
 	@Id
 	private int id;
 	
-	@NotBlank
 	private String username;
-	@NotBlank
-	@Email
 	private String email;
-	@NotBlank
 	private String password;
 	@DBRef
 	private Set<Role> roles = new HashSet<>();

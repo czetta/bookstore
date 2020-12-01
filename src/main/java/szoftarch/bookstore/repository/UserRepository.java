@@ -1,7 +1,5 @@
 package szoftarch.bookstore.repository;
 
-import java.util.Optional;
-
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import szoftarch.bookstore.model.User;
@@ -13,7 +11,7 @@ public interface UserRepository extends MongoRepository<User, Integer>{
 
 	public User findById(int id);
 	
-	public Optional<User> findByUsername(String username);
+	public User findByUsername(String username);
 	
 	public Boolean existsByUsername(String username);
 	

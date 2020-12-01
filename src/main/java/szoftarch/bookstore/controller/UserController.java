@@ -5,12 +5,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.validation.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 import szoftarch.bookstore.model.*;
 import szoftarch.bookstore.security.JwtUtils;
 import szoftarch.bookstore.service.RoleService;
-import szoftarch.bookstore.service.UserDetailsImpl;
 import szoftarch.bookstore.service.UserService;
 
 @RestController
@@ -44,8 +42,8 @@ public class UserController {
 	@Autowired
 	private JwtUtils jwtUtils;
 	
-	@PostMapping("/auth/register")//TODO: CHANGED
-	public synchronized ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest req) {
+	@PostMapping("/auth/register")
+	public synchronized ResponseEntity<?> registerUser(@RequestBody SignupRequest req) {
 		if(userService.fetchUserExistsByUsername(req.getUsername())) {
 			return ResponseEntity
 					.badRequest()
@@ -92,16 +90,21 @@ public class UserController {
 		return new ResponseEntity<User>(userObj, HttpStatus.OK);*/
 	}
 	
-	@PostMapping("/auth/login")//TODO: CHANGED
-	public ResponseEntity<?> loginUser(@Valid @RequestBody LoginRequest loginRequest) {
-		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		String jwt = jwtUtils.generateJwtToken(authentication);
-		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-		List<String> roles = userDetails.getAuthorities().stream()
-				.map(item -> item.getAuthority())
-				.collect(Collectors.toList());
-		return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles));
+	@PostMapping("/auth/login")
+	public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) throws Exception {
+		Authentication authentication;
+        try {
+            authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        } catch (BadCredentialsException e) {
+            throw new Exception("Incorrect username or password", e);
+        }
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtUtils.generateJwtToken(authentication);
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(item -> item.getAuthority())
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUser().getId(), userDetails.getUsername(), userDetails.getUser().getEmail(), roles));
 		
 		/*String email=user.getEmail();
 		String password=user.getPassword();
