@@ -55,25 +55,8 @@ public class UserController {
 					.body(new MessageResponse("Email is already in use"));
 		}
 		User user = new User(req.getUsername(), req.getEmail(), encoder.encode(req.getPassword()));
-		Set<String> strRoles = req.getRoles();
-		Set<Role> roles = new HashSet<>();
-		if(strRoles==null) {
-			Role userRole = roleService.fetchRoleByName(ERole.ROLE_USER).orElseThrow(()->new RuntimeException("Role not found"));
-			roles.add(userRole);
-		}
-		else {
-			strRoles.forEach(role->{
-				switch(role) {
-				case "admin":
-					Role adminRole = roleService.fetchRoleByName(ERole.ROLE_ADMIN).orElseThrow(()-> new RuntimeException("Role not found"));
-					roles.add(adminRole);
-					break;
-				default:
-					Role userRole = roleService.fetchRoleByName(ERole.ROLE_USER).orElseThrow(()->new RuntimeException("Role not found"));
-					roles.add(userRole);
-				}
-			});
-		}
+		Set<Role> roles = new HashSet<Role>();
+        roles.add(roleService.fetchRoleByName(ERole.ROLE_USER).orElseThrow(()->new RuntimeException("Roles not found")));
 		user.setRoles(roles);
 		userService.saveUser(user);
 		return ResponseEntity.ok(new MessageResponse("Registration was successfull"));
