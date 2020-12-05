@@ -58,6 +58,7 @@ public class UserController {
 		Set<Role> roles = new HashSet<Role>();
         roles.add(roleService.fetchRoleByName(ERole.ROLE_USER).orElseThrow(()->new RuntimeException("Roles not found")));
 		user.setRoles(roles);
+		user.setId(generateUserId());
 		userService.saveUser(user);
 		return ResponseEntity.ok(new MessageResponse("Registration was successfull"));
 		

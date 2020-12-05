@@ -14,7 +14,7 @@ import szoftarch.bookstore.repository.UserRepository;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
-	UserRepository userRepository;
+	private UserRepository userRepository;
 	
 	@Override
 	public UserDetails loadUserByUsername(final String username) {
